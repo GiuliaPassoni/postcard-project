@@ -4,7 +4,7 @@ import countryCapitals from './countryCapitals.json'
 //API 1: Input: city name. Output: geo coordinates and info (currency, language, flag?, info?)
 //DB Geo API doesn't work :( use local object with capital names and geo coords instead.
 //To suggest values as user types, create array of capitals:
-export const allCapitals:string[] = Object.keys(countryCapitals);
+const allCapitals:string[] = Object.keys(countryCapitals);
 
 export type geoData = {
     lat:number,
@@ -83,4 +83,4 @@ const GeoDataApi = (locationTest:string) : geoData =>{
     }
 }
 
-export {GetCoords,GetCurrency, GetFlag, GeoDataApi}
+export {allCapitals, GetCoords,GetCurrency, GetFlag, GeoDataApi}

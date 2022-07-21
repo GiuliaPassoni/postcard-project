@@ -57,14 +57,19 @@ const ApiCalls=()=>{
     //API 3: PICTURES
     const initialPictures : images = {url:[], alt:[], height:[]}
     const [pictures, setPictures] = useState<images>(initialPictures)
+    const [errorMessage, setErrorMessage] = useState<string>('')
     const getPictures = async () => {
         console.log('pictures pass')
         const result = await PicturesApi(location);
-        setPictures({
-           url:result.url,
-            alt:result.alt,
-            height:result.height
-        })
+        if (result.url.length > 0){
+            setPictures({
+                url:result.url,
+                alt:result.alt,
+                height:result.height
+            })
+        }else{
+            setErrorMessage('So sad! No pictures found :(')
+        }
     }
 
     let renderedImages = [];
@@ -85,6 +90,7 @@ const ApiCalls=()=>{
         if(location!==''){
             getGeoInfo(location)
             getWeatherData()
+            getPictures()
         }else if(allCapitals.indexOf(location) ===-1){
 
         }else if(location===''){
@@ -125,9 +131,10 @@ const ApiCalls=()=>{
                             <p>feels like: {allweather.feelTemp}</p>
                             <p>{allweather.weatherIconSrc}</p>
                         </>
-                        <div style={{backgroundColor:'black'}}>
-                            <button onClick={getPictures}>Some pictures here</button>
+                        <div >
+                            {/*<button onClick={getPictures}>Some pictures here</button>*/}
                             {/*{renderedImages}*/}
+                            {errorMessage === '' &&
                             <Carousel >
                                 <div>
                                     <img src={renderedImagesUrls[0]} />
@@ -138,7 +145,8 @@ const ApiCalls=()=>{
                                 <div>
                                     <img src={renderedImagesUrls[2]} />
                                 </div>
-                            </Carousel>
+                            </Carousel>}
+                            {errorMessage !== '' && errorMessage}
                         </div>
                     </>
                 }

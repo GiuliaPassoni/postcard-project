@@ -1,100 +1,34 @@
-import React, {useEffect, useState} from 'react'
-import axios from 'axios'
-import countryCapitals from './countryCapitals.json'
-
-const locationTest:string = 'Amsterdam'
-
-//API 1: Input: city name. Output: geo coordinates and info (currency, language, flag?, info?)
-//DB Geo API doesn't work :( use local object with capital names and geo coords instead.
-//To suggest values as user types, create array of capitals:
-const allCapitals:string[] = Object.keys(countryCapitals);
-//Suggest possible capitals using <datalist> html attribute
-
-//find lat and long coordinates from list
-// const selectLocation = (e:any) =>{
-//     e.preventDefault()
-//     let locationName:string = e.target.value
-//     return locationName
-// }
-
-type geoCoords={
-    lat:number;
-    long:number;
-}
-// const searchThrough=(e:any)=>{
-//     e.preventDefault()
-//     let inputTest = e.target.value
-//     inputTest = inputTest.charAt(0).toUpperCase() + inputTest.slice(1)
-//     let whoknows:string[] =[]
-//     let suggestions:string[] = []
-//     whoknows.push(inputTest)
-//     console.log(whoknows)
-//     for(let i in allCapitals){
-//         if(allCapitals[i].includes(whoknows[0])){
-//             suggestions.push(allCapitals[i])
-//         }
-//     }
-//    return suggestions
-// }
-
-//API 2: input: geo coords => output: weather icon + temperature (C and F)
-//weather API key
-const weatherApiKey : string | undefined  = process.env.REACT_APP_WEATHER_API
-//create type for result data that we need:
-type Weather = {
-    show: boolean;
-    weather: string;
-    temp:number;
-    feelTemp:number;
-    weatherIconSrc:string;
-}
-
-const lat:number = 52.3676
-const long:number = 4.9041
-// https://api.openweathermap.org/data/2.5/weather?lat=52.3676&lon=4.9041&appid=f53d6936ebfd6310c7c2bedc71382575
-
-//temp converter
-const celsiusToFahrenheit = (tempC:number) =>{
-    let fahrenheit:number = tempC*9/5+32
-    return fahrenheit
-}
-const fahrenheitToCelsius = (tempF:number) =>{
-    let celsius:number = (tempF-32)*5/9
-    return celsius
-}
-
-const WeatherApi = ()=>{
-        return axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${weatherApiKey}`)
-            .then((result)=>{
-                let allData:any | undefined = result.data;
-                return {
-                    weather:allData.weather[0].main,
-                    feelTemp:Math.floor((allData.main.feels_like-273.15)*10)/10,
-                    temp:Math.floor((allData.main.temp-273.15)*10)/10
-                };
-            })
-}
-
-//API 3: pictures of the location
-//
-const photosApiKey : string | undefined  = process.env.REACT_APP_IMAGES_API
-
-let imagesUrl:string[] = []
-let orientation:string='portrait'
-const LocationPictures = () => {
-    return axios.get(`https://api.unsplash.com/search/photos?query=${locationTest}&orientation=${orientation}&count=3&client_id=${photosApiKey}&per_page=3`)
-        .then((result)=>{
-            console.log(result)
-        })
-}
-
+import React, {useState, useEffect} from 'react'
+//"API" 1
+import {GetCurrency, GetFlag, allCapitals, GetCoords, geoData, GeoDataApi} from "./GeoCoords";
+//API 2
+import WeatherApi from "./WeatherApi";
+import {Weather} from "./WeatherApi";
+//API 3
+import PicturesApi from "./PicturesApi";
+import {images} from "./PicturesApi";
+//Carousel
+import {Carousel} from "react-responsive-carousel";
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 
 const ApiCalls=()=>{
     //API1: LOCATION
     const [location, setLocation] = useState<string>('')
-    const basicCoords : geoCoords = {lat:0, long:0}
-    const [locationCoords, setLocationCoords] = useState<geoCoords>(basicCoords)
+    const zeroGeo: geoData = {lat:0, long:0, currency:'', flagUrl:''}
+    const [geoInfo, setGeoInfo] = useState<geoData>(zeroGeo)
+    const getGeoInfo = async(location:string)=>{
+        console.log(location)
+        let response = await GeoDataApi(location);
+        setGeoInfo({
+            lat:response.lat,
+            long:response.long,
+            currency:response.currency,
+            flagUrl:response.flagUrl
+        })
+    }
+    // const basicCoords : geoCoords = {lat:0, long:0}
+    // const [locationCoords, setLocationCoords] = useState<geoCoords>(basicCoords)
 
     // const getLocationCoords = (location) =>{
     // //    find location and corresponding coordinates from json file
@@ -111,7 +45,7 @@ const ApiCalls=()=>{
     const [allweather, setAllweather]=useState<Weather>(initialWeather)
 
     const getWeatherData = async () => {
-        const result = await WeatherApi();
+        const result = await WeatherApi(geoInfo['lat'],geoInfo["long"]);
         setAllweather({
             show: true,
             weather: result.weather,
@@ -120,6 +54,46 @@ const ApiCalls=()=>{
             weatherIconSrc:result.weather[0].id
         })
     }
+    //API 3: PICTURES
+    const initialPictures : images = {url:[], alt:[], height:[]}
+    const [pictures, setPictures] = useState<images>(initialPictures)
+    const getPictures = async () => {
+        console.log('pictures pass')
+        const result = await PicturesApi(location);
+        setPictures({
+           url:result.url,
+            alt:result.alt,
+            height:result.height
+        })
+    }
+
+    let renderedImages = [];
+    for (let i=0; i<pictures.url.length; i++) {
+        const e =
+            <div>
+                <img alt={pictures.alt[i]} key={i} src={pictures.url[i]} loading='lazy'/>
+            </div>
+        renderedImages.push(e)
+    }
+    let renderedImagesUrls = [];
+    for (let i=0; i<pictures.url.length; i++) {
+        const e = pictures.url[i]
+        renderedImagesUrls.push(e)
+    }
+
+    useEffect(() => {
+        if(location!==''){
+            getGeoInfo(location)
+            getWeatherData()
+        }else if(allCapitals.indexOf(location) ===-1){
+
+        }else if(location===''){
+
+        }
+        // return () => setLocation('')
+
+    }, [location]);
+
 
     return(
         <>
@@ -127,7 +101,11 @@ const ApiCalls=()=>{
             <article>
                 <form>
                     <input placeholder='Type or select a capital city' id='citiesInput' name='cities' list='cities'
-                           onBlur={(e)=>setLocation(e.target.value)}
+                           onBlur={(e)=> {
+                               console.log(e.target.value)
+                               e.preventDefault();
+                               setLocation(e.target.value);
+                           }}
                     />
                     <datalist id='cities'>
                         {allCapitals.map((item)=>{return <option value={item} key={item}/>})}
@@ -137,19 +115,33 @@ const ApiCalls=()=>{
             </article>
             <article style={{border:'1px solid black'}}>
                 <h1>Weather box</h1>
-                <button onClick={getWeatherData}>Show me some sunshine</button>
+                {/*<button onClick={getWeatherData}>Show me some sunshine</button>*/}
 
                 {allweather.show === true &&
                     <>
-                        <p>Weather is: {allweather.weather}</p>
-                        <p>T: {allweather.temp}</p>
-                        <p>feels like: {allweather.feelTemp}</p>
-                        <p>{allweather.weatherIconSrc}</p>
+                        <>
+                            <p>Weather is: {allweather.weather}</p>
+                            <p>T: {allweather.temp}</p>
+                            <p>feels like: {allweather.feelTemp}</p>
+                            <p>{allweather.weatherIconSrc}</p>
+                        </>
+                        <div style={{backgroundColor:'black'}}>
+                            <button onClick={getPictures}>Some pictures here</button>
+                            {/*{renderedImages}*/}
+                            <Carousel >
+                                <div>
+                                    <img src={renderedImagesUrls[0]} />
+                                </div>
+                                <div>
+                                    <img src={renderedImagesUrls[1]} />
+                                </div>
+                                <div>
+                                    <img src={renderedImagesUrls[2]} />
+                                </div>
+                            </Carousel>
+                        </div>
                     </>
                 }
-            </article>
-            <article>
-                <button onClick={LocationPictures}>Pictures url</button>
             </article>
         </>
     )

@@ -5,14 +5,14 @@ const lat:number = 52.3676
 const long:number = 4.9041
 
 // //temp converter
-// export const celsiusToFahrenheit = (tempC:number) =>{
-//     let fahrenheit:number = tempC*9/5+32
-//     return fahrenheit
-// }
-// export const fahrenheitToCelsius = (tempF:number) =>{
-//     let celsius:number = (tempF-32)*5/9
-//     return celsius
-// }
+const celsiusToFahrenheit = (tempC:number) =>{
+    let fahrenheit:number = tempC*9/5+32
+    return fahrenheit
+}
+const fahrenheitToCelsius = (tempF:number) =>{
+    let celsius:number = (tempF-32)*5/9
+    return celsius
+}
 
 const weatherApiKey : string | undefined  = process.env.REACT_APP_WEATHER_API
 //create type for result data that we need:
@@ -37,4 +37,4 @@ const WeatherApi = (lat:number,long:number):any=>{
         })
 }
 
-export default WeatherApi
+export {WeatherApi,celsiusToFahrenheit, fahrenheitToCelsius }

@@ -1,10 +1,11 @@
 import axios from "axios";
-import countryCapitals from './countryCapitals.json'
+import countryCapitals from '../countryCapitals.json'
 
 //API 1: Input: city name. Output: geo coordinates and info (currency, language, flag?, info?)
 //DB Geo API doesn't work :( use local object with capital names and geo coords instead.
 //To suggest values as user types, create array of capitals:
-const allCapitals:string[] = Object.keys(countryCapitals);
+let allCapitals:string[] = Object.keys(countryCapitals);
+allCapitals = allCapitals.sort()
 
 export type geoData = {
     lat:number,
@@ -13,12 +14,9 @@ export type geoData = {
     flagUrl:string
 }
 
-const locationTest:string = 'Amsterdam'
-
 const GetCoords = (locationTest:string) : [number, number] =>{
     // @ts-ignore
     let indexing: any =  countryCapitals[locationTest]
-    console.log(indexing.CapitalLatitude)
     let lat:number = indexing.CapitalLatitude
     let long:number = indexing.CapitalLongitude
     return [lat, long]

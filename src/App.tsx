@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import ApiCalls from './ApiCalls';
+import ApiCallsV1 from './ApiCallsV1';
 
 function App() {
   return (
     <div className="App">
-      <ApiCalls/>
+      <ApiCallsV1/>
 
     </div>
   );

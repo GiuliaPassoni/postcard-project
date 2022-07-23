@@ -1,7 +1,7 @@
 //API 3: pictures of the location
 import axios from "axios";
-import countryCapitals from './countryCapitals.json'
-import {allCapitals} from './GeoCoords'
+import countryCapitals from '../countryCapitals.json'
+import {allCapitals} from './GeoCoordsApi'
 
 const locationTest:string = 'Amsterdam'
 
@@ -15,7 +15,7 @@ export type images = {
 
 let orientation:string='landscape'
 const PicturesApi = (locationTest:string) : Promise<images> => {
-    return axios.get(`https://api.unsplash.com/search/photos?query=${locationTest}&orientation=${orientation}&count=5&client_id=${photosApiKey}&per_page=3`)
+    return axios.get(`https://api.unsplash.com/search/photos?query=${locationTest}&orientation=${orientation}&client_id=${photosApiKey}&per_page=5`)
         .then((result)=>{
             let allData:any | undefined = result.data.results
             if(allData.length === 0){
@@ -41,4 +41,4 @@ const PicturesApi = (locationTest:string) : Promise<images> => {
         })
 }
 
-export default PicturesApi
+export {PicturesApi}

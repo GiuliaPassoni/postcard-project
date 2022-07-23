@@ -1,16 +1,13 @@
 import React, {useState, useEffect} from 'react'
 //"API" 1
-import {GetCurrency, GetFlag, allCapitals, GetCoords, geoData, GeoDataApi} from "./GeoCoords";
+import {allCapitals, geoData, GeoDataApi} from "./API Calls/GeoCoordsApi";
 //API 2
-import WeatherApi from "./WeatherApi";
-import {Weather} from "./WeatherApi";
+import {Weather, WeatherApi, celsiusToFahrenheit, fahrenheitToCelsius} from "./API Calls/WeatherApi";
 //API 3
-import PicturesApi from "./PicturesApi";
-import {images} from "./PicturesApi";
+import {PicturesApi,images} from "./API Calls/PicturesApi";
 //Carousel
 import {Carousel} from "react-responsive-carousel";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-
 
 const ApiCalls=()=>{
     //API1: LOCATION
@@ -27,17 +24,6 @@ const ApiCalls=()=>{
             flagUrl:response.flagUrl
         })
     }
-    // const basicCoords : geoCoords = {lat:0, long:0}
-    // const [locationCoords, setLocationCoords] = useState<geoCoords>(basicCoords)
-
-    // const getLocationCoords = (location) =>{
-    // //    find location and corresponding coordinates from json file
-    //     return setLocationCoords({
-    //         lat:countryCapitals[location].CapitalLatitude,
-    //         long:countryCapitals[location].CapitalLongitude,
-    //     }
-    // })
-
     // const [loading, setLoading] = useState<boolean>(false)
 
     //API 2: WEATHER
@@ -54,7 +40,7 @@ const ApiCalls=()=>{
             weatherIconSrc:result.weather[0].id
         })
     }
-    //API 3: PICTURES
+    // //API 3: PICTURES
     const initialPictures : images = {url:[], alt:[], height:[]}
     const [pictures, setPictures] = useState<images>(initialPictures)
     const [errorMessage, setErrorMessage] = useState<string>('')
@@ -80,7 +66,7 @@ const ApiCalls=()=>{
             </div>
         renderedImages.push(e)
     }
-    let renderedImagesUrls = [];
+    let renderedImagesUrls:string[] = [];
     for (let i=0; i<pictures.url.length; i++) {
         const e = pictures.url[i]
         renderedImagesUrls.push(e)
@@ -120,31 +106,29 @@ const ApiCalls=()=>{
                 {/*<input placeholder='Type a capital city' onChange={(e)=>searchThrough(e)}/>*/}
             </article>
             <article style={{border:'1px solid black'}}>
-                <h1>Weather box</h1>
                 {/*<button onClick={getWeatherData}>Show me some sunshine</button>*/}
-
                 {allweather.show === true &&
                     <>
-                        <>
+                        {/*WEATHER*/}
+                        <div>
+                            <h1>Weather box</h1>
                             <p>Weather is: {allweather.weather}</p>
-                            <p>T: {allweather.temp}</p>
-                            <p>feels like: {allweather.feelTemp}</p>
+
+                            <p>T: {allweather.temp} <button onClick={()=>celsiusToFahrenheit(allweather.temp)}> C</button></p>
+                            <p><button onClick={()=>fahrenheitToCelsius(allweather.temp)}>F</button></p>
+                            {/*<p>feels like: {allweather.feelTemp}</p>*/}
                             <p>{allweather.weatherIconSrc}</p>
-                        </>
+                        </div>
+                        {/*CAROUSEL*/}
                         <div >
                             {/*<button onClick={getPictures}>Some pictures here</button>*/}
                             {/*{renderedImages}*/}
                             {errorMessage === '' &&
                             <Carousel >
-                                <div>
-                                    <img src={renderedImagesUrls[0]} />
-                                </div>
-                                <div>
-                                    <img src={renderedImagesUrls[1]} />
-                                </div>
-                                <div>
-                                    <img src={renderedImagesUrls[2]} />
-                                </div>
+                                {renderedImagesUrls.map((i, ix:number) => {return  <div>
+                                        <img key={i} src={renderedImagesUrls[ix]} alt='' />
+                                    </div>
+                                })}
                             </Carousel>}
                             {errorMessage !== '' && errorMessage}
                         </div>

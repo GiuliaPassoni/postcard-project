@@ -11,7 +11,8 @@ export type geoData = {
     lat:number,
     long:number,
     currency:string,
-    flagUrl:string
+    flagUrl:boolean,
+    flagCode:any
 }
 
 const GetCoords = (locationTest:string) : [number, number] =>{
@@ -38,16 +39,15 @@ const GetCoords = (locationTest:string) : [number, number] =>{
 //    return suggestions
 // }
 
-const GetCurrency = (locationTest:string) : any=> {
+const GetCurrency = async (locationTest:string) : Promise<any>=> {
     // @ts-ignore
     let countryName:string = countryCapitals[locationTest].CountryName
     let currency: string;
-    axios.get(`https://countriesnow.space/api/v0.1/countries/currency?country=${countryName}`)
+    return await axios.get(`https://countriesnow.space/api/v0.1/countries/currency?country=${countryName}`)
         .then((res: any)=>{
             let allData:any = res.data.data
             for(let item in allData){
                 if(allData[item].name === countryName){
-                    console.log(allData[item].currency)
                     currency = allData[item].currency
                     return currency
                 }
@@ -57,27 +57,40 @@ const GetCurrency = (locationTest:string) : any=> {
 
 // export default GetCurrency
 
-const GetFlag = (locationTest:string) :any => {
+const GetFlag = async (locationTest:string) :Promise<any> => {
     // @ts-ignore
     let countryName:string = countryCapitals[locationTest].CountryName
-    let flagUrl:string;
-    axios.get(`https://countriesnow.space/api/v0.1/countries/flag/images/q?country=${countryName}`)
-        .then((res: any)=>{
-            console.log(res.data.data.flag)
-            flagUrl = res.data.data.flag
+    let flagUrl:boolean;
+    return await axios.get(`https://countriesnow.space/api/v0.1/countries/flag/images/q?country=${countryName}`)
+        .then((res: any) => {
+            // flagUrl = res.data.data.flag
+            flagUrl = true
             return flagUrl
         })
+        .catch((err)=> {
+            flagUrl = false
+            return flagUrl
+        });
 }
 
-const GeoDataApi = (locationTest:string) : geoData =>{
+
+const GetFlagCode = (locat:string):string => {
+    // @ts-ignore
+    let flagCode:any = countryCapitals[locat].CountryCode
+    return flagCode
+}
+
+const GeoDataApi = async (locationTest:string) : Promise<geoData> =>{
     let [lat, long] = GetCoords(locationTest)
-    let currency = GetCurrency(locationTest)
-    let flagUrl = GetFlag(locationTest)
+    let currency = await GetCurrency(locationTest)
+    let flagUrl = await GetFlag(locationTest)
+    let flagCode = GetFlagCode(locationTest)
     return{
         lat: lat,
         long:long,
         currency: currency,
-        flagUrl: flagUrl
+        flagUrl: flagUrl,
+        flagCode: flagCode
     }
 }
 

@@ -13,13 +13,13 @@ export type images = {
     height:number[]
 }
 
-let orientation:string='landscape'
-const PicturesApi = (locationTest:string) : Promise<images> => {
-    return axios.get(`https://api.unsplash.com/search/photos?query=${locationTest}&orientation=${orientation}&client_id=${photosApiKey}&per_page=5`)
+// let orientation:string='landscape'
+
+const PicturesApi = (locationTest:string, orientation:string) : Promise<images> => {
+    return axios.get(`https://api.unsplash.com/search/photos?query=${locationTest}-city&orientation=${orientation}&client_id=${photosApiKey}&per_page=5`)
         .then((result)=>{
             let allData:any | undefined = result.data.results
             if(allData.length === 0){
-                console.log('no pictures')
                 if (allCapitals.indexOf(locationTest) !== -1){
                     // @ts-ignore
                     return PicturesApi(countryCapitals[locationTest].CountryName)
@@ -31,7 +31,6 @@ const PicturesApi = (locationTest:string) : Promise<images> => {
                     };
                 }
             }else{
-                console.log('picture pass')
                 return {
                     url:(allData.map((item: { urls: { raw: string; }; }) => {return item.urls.raw+"&w=1500&dpr=2"})),
                     alt:allData.map((item: { alt_description: string; }) => {return item.alt_description}),

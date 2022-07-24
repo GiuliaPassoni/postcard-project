@@ -4,27 +4,27 @@ import {Carousel} from "react-responsive-carousel";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import '../style.scss'
 import Postcard from "./Postcard";
-import {Modal, Button, Box, Typography} from "@mui/material";
+import {Modal, Button, Box, Typography, Container} from "@mui/material";
 
 type TPicturesProps = {
-    locat:string
+    locat:string,
+    orientation:string
 }
 
-export default function PicturesComponent({locat}:TPicturesProps){
+export default function PicturesComponent({locat, orientation}:TPicturesProps){
     //API 3: PICTURES
     const initialPictures : images = {url:[], alt:[], height:[]}
     const [pictures, setPictures] = useState<images>(initialPictures)
     const [errorMessage, setErrorMessage] = useState<string>('')
     const getPictures = useCallback(
         async () => {
-            const result = await PicturesApi(locat);
+            const result = await PicturesApi(locat, orientation);
             if (result.url.length > 0){
                 setPictures({
                     url:result.url,
                     alt:result.alt,
                     height:result.height
                 })
-                console.log('pics pass')
             }else{
                 setErrorMessage('So sad! No pictures found :(')
             }
@@ -61,47 +61,15 @@ export default function PicturesComponent({locat}:TPicturesProps){
     return(
         <>
             {errorMessage === '' &&
-                <div  >
+                <Container className='picturesSection'
+                           style={{margin:'1rem auto',display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
                 <Carousel>
                     {renderedImagesUrls.map((i, ix:number) => {return <Postcard image={i} keyThing={ix} locat={locat}/>
                     })}
                 </Carousel>
-                </div>
+                </Container>
             }
             {errorMessage !== '' && errorMessage}
-            {/*<>*/}
-            {/*    <Modal*/}
-            {/*        className='modal'*/}
-            {/*        sx={{*/}
-            {/*        display:'flex',*/}
-            {/*        justifyContent:'center',*/}
-            {/*        alignItems:'center'}}*/}
-            {/*        keepMounted*/}
-            {/*        open={open}*/}
-            {/*        onClose={handleClose}*/}
-            {/*        // onClose={handleClose}*/}
-            {/*        aria-labelledby="keep-mounted-modal-title"*/}
-            {/*        aria-describedby="keep-mounted-modal-description"*/}
-            {/*    >*/}
-
-            {/*        <div className='card'>*/}
-            {/*        /!*    <div className='content'>*!/*/}
-            {/*        /!*        <div className='front'>*!/*/}
-            {/*                    <Carousel>*/}
-            {/*                        {renderedImagesUrls.map((i, ix:number) => {return  <div>*/}
-            {/*                            <img key={i} src={renderedImagesUrls[ix]} alt='' onClick={setImage} />*/}
-            {/*                        </div>*/}
-            {/*                        })}*/}
-            {/*                    </Carousel>*/}
-            {/*        /!*        </div>*!/*/}
-            {/*        /!*        <div className='back'>*!/*/}
-            {/*        /!*            <h3>SUCCESS</h3>*!/*/}
-            {/*        /!*        </div>*!/*/}
-            {/*        /!*    </div>*!/*/}
-            {/*        </div>*/}
-            {/*</Modal>*/}
-            {/*    {console.log('image',image)}*/}
-            {/*</>*/}
         </>
     )
 

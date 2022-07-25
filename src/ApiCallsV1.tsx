@@ -1,13 +1,14 @@
 import React, {useState, useEffect} from 'react'
-
-import TravelExploreIcon from '@mui/icons-material/TravelExplore'
-import {Box, Button, Container, Typography, Stack} from '@mui/material'
 //"API" 1
-import {allCapitals, geoData, GeoDataApi} from "./API Calls/GeoCoordsApi";
-import ReactCountryFlag from "react-country-flag";
-
-import WeatherComponent from './components/WeatherComponent';
-import PicturesComponent from "./components/PicturesComponent";
+import {allCapitals, geoData, GeoDataApi} from "./API Calls/GeoCoordsApi"
+import ReactCountryFlag from "react-country-flag"
+//API 2 AND 3
+import WeatherComponent from './components/WeatherComponent'
+import PicturesComponent from "./components/PicturesComponent"
+//styling
+import style from './styling/mainPage.module.scss'
+import {Container, Stack} from '@mui/material'
+import GitHubIcon from '@mui/icons-material/GitHub'
 
 const ApiCallsV1 = () => {
     //API1: LOCATION
@@ -41,13 +42,13 @@ const ApiCallsV1 = () => {
     }
 
     //set orientation param:
-    const width:any = window.innerWidth;
+    const width: any = window.innerWidth;
     const [orientation, setOrientation] = useState('portrait');
 
     useEffect(() => {
-        if(width>600){
+        if (width > 600) {
             setOrientation('landscape')
-        }else{
+        } else {
             setOrientation('portrait')
         }
         if (location !== '') {
@@ -59,39 +60,36 @@ const ApiCallsV1 = () => {
         }
     }, [location]);
 
+    // const movingCloudsClass = location === '' ? 'clouds' : '';
+
     return (
-        <Container maxWidth='lg' sx={{
-            display: 'flex', flexDirection: 'column',
-            // backgroundColor: '#100a9b',
-            // backgroundImage: 'linear-gradient(0deg, #100a9b 0%, #e975a8 74%)'
-        }}>
+        <Container
+            // className={movingCloudsClass}
+            className={style.containerAll}
+            maxWidth='lg'
+            sx={{
+                display: 'flex', flexDirection: 'column'
+            }}>
             {/*<header style={{color:'#6db4f2'}}>*/}
-            <header style={{ color: '#2d3784'}}>
+
+            <header>
                 <h1>Postcard DayDreaming</h1>
-                <h3 style={{fontStyle: 'italic'}}>A souvenir from your daydreams </h3>
+                <h3>A souvenir from your daydreams </h3>
             </header>
             <main>
-                <section className='introForm'>
+                <section className={style.intro}>
                     <p>Input or select a capital city:</p>
                     <form
+                        className={style.introForm}
                         onSubmit={(e) => {
                             e.preventDefault();
                             setLocation(typingValue)
-                        }}
-                        style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                        }}>
                         {/*<label htmlFor='cities'>Input or select a capital city</label>*/}
-                        <input placeholder='Type or select a capital city'
+                        <input placeholder='e.g. Amsterdam'
                                id='citiesInput' name='cities' list='cities'
                                value={typingValue}
                                onChange={(e) => setTypingValue(e.target.value)}
-                               style={{
-                                   display: 'inline',
-                                   padding: '.5rem',
-                                   borderRadius: '5px',
-                                   border: 'none',
-                                   boxShadow: '0 0 5px 5px silver',
-                                   margin: '1 rem'
-                               }}
                                onClick={(e) => {
                                    setLocation('')
                                    setTypingValue('')
@@ -109,36 +107,49 @@ const ApiCallsV1 = () => {
                         </datalist>
                     </form>
                 </section>
+
+                {location === '' &&
+                    <div className={style.cloudId}>
+                        <div className={style.cloud}></div>
+                        <div className={style.cloud}></div>
+                        <div className={style.cloud}></div>
+                        <div className={style.cloud}></div>
+                        <div className={style.cloud}></div>
+                    </div>}
+
                 {noLocationError === '' &&
                     location !== '' &&
                     <>
-                        <section className='geoInfo' style={{
-                            display: 'flex',
-                            width: '100%',
-                            justifyContent: 'center',
-                            marginTop: '1.5rem',
-                            padding: '.5rem'
-                        }}>
+                        <section className={style.geoInfo}>
                             <Stack direction='row' spacing={2}>
                                 {geoInfo.flagUrl &&
                                     <>
-                                        <ReactCountryFlag countryCode={geoInfo['flagCode']}
-                                                          style={{transform: 'scale(2.5)'}}/>
+                                        <ReactCountryFlag countryCode={geoInfo['flagCode']}/>
                                     </>}
-                                {geoInfo.currency !== '' && <p>Currency: {geoInfo.currency}</p>}
+                                {geoInfo.currency !== '' && geoInfo.currency !== undefined  && <p>Currency: {geoInfo.currency}</p>}
                             </Stack>
                         </section>
 
-                            <WeatherComponent locat={location} lat={geoInfo['lat']} long={geoInfo['long']}/>
+                        <WeatherComponent locat={location} lat={geoInfo['lat']} long={geoInfo['long']}/>
 
-                            <PicturesComponent locat={location} orientation={orientation}/>
+                        <PicturesComponent locat={location} orientation={orientation}/>
 
                     </>
                 }
-                {noLocationError !== '' && noLocationError}
+                {noLocationError !== '' && noLocationError &&
+                    <div id="clouds">
+                        <div className="cloud"></div>
+                        <div className="cloud"></div>
+                        <div className="cloud"></div>
+                        <div className="cloud"></div>
+                        <div className="cloud"></div>
+                    </div>}
+
             </main>
             <footer>
-                <p>&copy; Giulia Passoni 2022</p>
+                {/*<p className={style.socials}><GitHubIcon /></p>*/}
+                <p className={style.myCp}>&copy; Giulia Passoni 2022 <a href='https://github.com/GiuliaPassoni'><GitHubIcon /></a></p>
+                <p className={style.others}> CSS Animation credits: <a href='https://codepen.io/geenah/pen/pVXvgK'>Gina</a></p>
             </footer>
         </Container>
     )

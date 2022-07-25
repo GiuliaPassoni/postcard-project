@@ -1,0 +1,365 @@
+@use 'variables';
+
+//CLOUDS
+.cloudId {
+  padding: 4vw 0;
+}
+
+/* base of cloud */
+.cloud {
+  height: 4vw;
+  width: 13vw;
+  background: white;
+  border-radius: 40vw;
+  position: relative;
+}
+
+/* smaller circle within cloud */
+.cloud:before {
+  content: "";
+  position: absolute;
+  top: -2vw;
+  height: 6vw;
+  width: 6vw;
+  left: 2vw;
+  border-radius: 50%;
+  background: white;
+}
+
+/* larger circle within cloud */
+.cloud:after {
+  content: "";
+  position: absolute;
+  height: 6vw;
+  width: 6vw;
+  top: -3vw;
+  left: 5vw;
+  border-radius: 50%;
+  background: white;
+}
+
+.cloudId .cloud:nth-child(1) {
+  opacity: 0.7;
+  animation: moveclouds1 17s linear infinite;
+  -webkit-animation: moveclouds1 17s linear infinite;
+  -moz-animation: moveclouds1 17s linear infinite;
+  -o-animation: moveclouds1 17s linear infinite;
+}
+.cloudId .cloud:nth-child(2) {
+  left: 15%;
+  opacity: 0.5;
+  animation: moveclouds 22s linear infinite;
+  -webkit-animation: moveclouds 22s linear infinite;
+  -moz-animation: moveclouds 22s linear infinite;
+  -o-animation: moveclouds 22s linear infinite;
+}
+.cloudId .cloud:nth-child(3) {
+  left: 30%;
+  z-index: 1;
+  animation: moveclouds1 15s linear infinite;
+  -webkit-animation: moveclouds1 15s linear infinite;
+  -moz-animation: moveclouds1 15s linear infinite;
+  -o-animation: moveclouds1 15s linear infinite;
+}
+.cloudId .cloud:nth-child(4) {
+  left: 40%;
+  opacity: 0.7;
+  transform: scale(0.6);
+  -webkit-transform: scale(0.6);
+  -moz-transform: scale(0.6);
+  -o-transform: scale(0.6);
+  animation: moveclouds 14s linear infinite;
+  -webkit-animation: moveclouds 14s linear infinite;
+  -moz-animation: moveclouds 14s linear infinite;
+  -o-animation: moveclouds 14s linear infinite;
+}
+.cloudId .cloud:nth-child(5) {
+  left: 60%;
+  opacity: 0.4;
+  z-index: 1;
+
+  transform: scale(0.8);
+  -webkit-transform: scale(0.8);
+  -moz-transform: scale(0.8);
+  -o-transform: scale(0.8);
+
+  animation: moveclouds1 22s linear infinite;
+  -webkit-animation: moveclouds1 22s linear infinite;
+  -moz-animation: moveclouds1 22s linear infinite;
+  -o-animation: moveclouds1 22s linear infinite;
+}
+@keyframes moveclouds {
+  0% {
+    left:0;
+  }
+  100% {
+    left:100%
+  }
+}
+
+@-webkit-keyframes moveclouds {
+  0% {
+    left:0;
+  }
+  100% {
+    left:100%
+  }
+}
+@-moz-keyframes moveclouds {
+  0% {
+    left:0;
+  }
+  100% {
+    left:100%
+  }
+}
+@-o-keyframes moveclouds {
+  0% {
+    left:0;
+  }
+  100% {
+    left:100%
+  }
+}@keyframes moveclouds1 {
+  0% {
+    left:100%;
+  }
+  100% {
+    left:0;
+  }
+}
+
+@-webkit-keyframes moveclouds1 {
+  0% {
+    left:100%;
+  }
+  100% {
+    left:0;
+  }
+}
+@-moz-keyframes moveclouds1 {
+  0% {
+    left:100%;
+  }
+  100% {
+    left:0;
+  }
+}
+@-o-keyframes moveclouds1 {
+  0% {
+    left:100%;
+  }
+  100% {
+    left:0;
+  }
+}
+///////////
+
+
+//ALL
+html {
+  //height: 100vh;
+}
+
+body {
+  //box-sizing: border-box;
+  height: 100vh;
+  margin: 0;
+  //background-color: #f9c1b1;
+  //background-image: linear-gradient(315deg, #ffbba8 0%, #f2e7cc 74%);
+  //background-repeat: no-repeat;
+  //background-attachment: fixed;
+  background: rgb(190, 231, 232);
+  background: linear-gradient(143deg, rgb(142 212 214) 0%, rgb(246 188 174) 55%);
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+  color: variables.$raisin-black;
+}
+
+main::after{
+  content:'';
+  margin-bottom:40px;
+}
+
+
+//container
+.containerAll {
+  border: 2px double variables.$raisin-black;
+  margin-top: 2rem;
+  border-radius: 10px;
+  height: 92vh;
+  width: 92vw;
+  display: flex;
+  flex-direction: column;
+}
+
+//clouds
+.clouds {
+  background-color: #514cd1;
+}
+
+// HEADER
+header {
+  margin-top: -2.5rem;
+  font-size: 120%;
+  text-align: center;
+  //color: #2d3784;
+  //border: 1px solid blue;
+}
+
+h1 {
+  background: linear-gradient(
+                  143deg,
+                  #B8CAC5 0%,
+                  #DBC2B8 55%
+  );
+  width: fit-content;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  letter-spacing: .8rem;
+  font-family: 'Just Another Hand', cursive;
+  margin-bottom: 0;
+}
+
+h3 {
+  //font-style:italic;
+  margin: .5em 0;
+}
+h3 * + * {
+  margin-top: .2em;
+}
+
+.intro {
+  //border: 1px solid red;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    margin-top: .2em;
+  }
+
+  .introForm {
+    //border: 1px solid green;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding-top: 0;
+
+    input {
+      margin-top: 0;
+      font-size: 110%;
+      padding: 0.5rem;
+      display: inline;
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: none;
+      box-shadow: silver 0px 0px 5px 5px;
+      text-align: center;
+    }
+
+    ::placeholder {
+      text-align: center;
+      font-style: italic;
+      //font-family: 'Just Another Hand', cursive;
+    }
+  }
+
+}
+
+
+.geoInfo {
+  display: flex;
+  justify-content: center;
+  margin-left: .5rem;
+  margin-top:.5rem;
+  padding: 0.5rem;
+
+
+  span {
+    font-size: 250%;
+    text-align: center;
+  }
+
+  p {
+    margin-top: 0;
+  }
+}
+
+//FOOTER
+
+footer {
+  .myCp{
+    width:100%;
+    position: absolute;
+    text-align: center;
+    //margin-top: 2rem;
+    //bottom: 20px;
+    bottom: 0;
+    vertical-align: top;
+    color:variables.$raisin-black;
+  }
+  p{
+    margin-bottom: 0;
+  }
+  .others{
+    display:none;
+    text-align: center;
+    transform: rotate(270deg);
+    position: absolute;
+    right: -3rem;
+    bottom: 50vh;
+  }
+}
+
+//MEDIA
+
+@media screen and (max-width: 800px) {
+  .containerAll{
+    border: none;
+    height:100vh;
+    margin-left: .5rem;
+    margin-right:.5rem;
+    h1{
+      //width: 50%;
+      font-size: 150%;
+      background:transparent;
+      border-radius: 10px;
+      width: 80%;
+      padding: 1rem 0 1rem 0;
+      border: 3px double variables.$raisin-black;
+    }
+    h3{
+      font-size: 90%;
+    }
+  }
+  .intro {
+    .introForm {
+      flex-direction: column;
+    }
+  }
+  .geoInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: .5rem;
+    span {
+      font-size: 250%;
+      padding-right: .5rem;
+      text-align: center;
+    }
+    p {
+      margin-top: 0;
+    }
+  }
+}
+
+

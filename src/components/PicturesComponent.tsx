@@ -2,9 +2,9 @@ import {PicturesApi,images} from "./../API Calls/PicturesApi";
 import React, {useCallback, useEffect, useState} from "react";
 import {Carousel} from "react-responsive-carousel";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import '../style.scss'
+import '../anyotherfile.scss'
 import Postcard from "./Postcard";
-import {Modal, Button, Box, Typography, Container} from "@mui/material";
+import {Container} from "@mui/material";
 
 type TPicturesProps = {
     locat:string,
@@ -62,9 +62,9 @@ export default function PicturesComponent({locat, orientation}:TPicturesProps){
         <>
             {errorMessage === '' &&
                 <Container className='picturesSection'
-                           style={{margin:'1rem auto',display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
+                           style={{margin:'.5rem auto',display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
                 <Carousel>
-                    {renderedImagesUrls.map((i, ix:number) => {return <Postcard image={i} keyThing={ix} locat={locat}/>
+                    {renderedImagesUrls.map((i, ix:number) => {return<div> <Postcard image={i} keyThing={ix} locat={locat}/> <caption><a href={i}>&copy; Unsplash</a></caption> </div>
                     })}
                 </Carousel>
                 </Container>

@@ -14,7 +14,7 @@ const fahrenheitToCelsius = (tempF:number) =>{
     return celsius
 }
 
-const weatherApiKey : string | undefined  = process.env.REACT_APP_WEATHER_API
+const weatherApiKey : string  = "f53d6936ebfd6310c7c2bedc71382575"
 //create type for result data that we need:
 export type Weather = {
     show: boolean;

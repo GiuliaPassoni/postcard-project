@@ -5,6 +5,8 @@ import React, {useEffect, useState, useCallback} from "react";
 import {Container, Grid, Button, Stack} from '@mui/material'
 import ThermostatIcon from '@mui/icons-material/Thermostat';
 
+import style from './../styling/weather.module.scss'
+
 interface IWeatherProps {
     locat: any,
     lat: any,
@@ -46,17 +48,10 @@ export default function WeatherComponent({locat, lat, long}: IWeatherProps) {
     return (
         <>
             {/*{allweather.show === true &&*/}
-            <Container className='weatherSection' sx={{
-                width: '60%',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexWrap: 'wrap'
-            }}>
+            <Container className={style.weatherSection}>
                 <h4> The weather in {locat}</h4>
-                <Grid container spacing={1} sx={{alignItems: 'center', justifyContent: 'center'}}>
-                    <Grid item xs={12} sm={12} md={6}
+                <Grid className={style.dataContainer} container spacing={1} sx={{alignItems: 'center', justifyContent: 'center'}}>
+                    <Grid item xs={12} sm={12} md={6} className={style.dataLeft}
                           sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                         <img src={allweather.weatherIconSrc}
                              style={{
@@ -71,7 +66,7 @@ export default function WeatherComponent({locat, lat, long}: IWeatherProps) {
                         />
                         <p style={{display: 'inline'}}>{allweather.weather}</p>
                     </Grid>
-                    <Grid item xs={12} sm={12} md={6}>
+                    <Grid item xs={12} sm={12} md={6} className={style.dataRight}>
                         {/*<div>*/}
                         {unit === 'celsius' ?
                             <Grid container direction='row'
@@ -81,7 +76,8 @@ export default function WeatherComponent({locat, lat, long}: IWeatherProps) {
                                     <p>feels like {allweather.feelTemp} &#176;C</p>
                                 </Grid>
                                 <button
-                                    style={{border:'none', backgroundColor:'rgb(228 192 155)', borderRadius:'50%', padding:'.5rem', marginLeft:'.5rem'}}
+                                    // style={{border:'none', backgroundColor:'rgb(228 192 155)', borderRadius:'50%', padding:'.5rem', marginLeft:'.5rem'}}
+                                    style={{border:'none', backgroundColor:'variables.$cool-gray', borderRadius:'50%', padding:'.5rem', marginLeft:'.5rem'}}
                                         onClick={() => setUnit('fahrenheit')}> &#176;F</button>
                             </Grid>
                             : <Grid container direction='row'

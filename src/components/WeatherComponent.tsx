@@ -2,7 +2,7 @@
 import {Weather, WeatherApi, celsiusToFahrenheit, fahrenheitToCelsius} from "./../API Calls/WeatherApi";
 import React, {useEffect, useState, useCallback} from "react";
 
-import {Container, Grid, Button, Stack} from '@mui/material'
+import {Container, Grid} from '@mui/material'
 import ThermostatIcon from '@mui/icons-material/Thermostat';
 
 import style from './../styling/weather.module.scss'
@@ -77,7 +77,7 @@ export default function WeatherComponent({locat, lat, long}: IWeatherProps) {
                                 </Grid>
                                 <button
                                     // style={{border:'none', backgroundColor:'rgb(228 192 155)', borderRadius:'50%', padding:'.5rem', marginLeft:'.5rem'}}
-                                    style={{border:'none', backgroundColor:'variables.$cool-gray', borderRadius:'50%', padding:'.5rem', marginLeft:'.5rem'}}
+                                    style={{border:'none', backgroundColor:'white', borderRadius:'50%', padding:'.5rem', marginLeft:'.5rem'}}
                                         onClick={() => setUnit('fahrenheit')}> &#176;F</button>
                             </Grid>
                             : <Grid container direction='row'
@@ -87,7 +87,7 @@ export default function WeatherComponent({locat, lat, long}: IWeatherProps) {
                                     <p>feels like {celsiusToFahrenheit(allweather.feelTemp)} &#176;F</p>
                                 </Grid>
                                 <button
-                                    style={{border:'none', backgroundColor:'rgb(228 192 155)', borderRadius:'50%', padding:'.5rem', marginLeft:'.5rem'}}
+                                    style={{border:'none', backgroundColor:'white', borderRadius:'50%', padding:'.5rem', marginLeft:'.5rem'}}
                                     onClick={() => {
                                         fahrenheitToCelsius(allweather.temp)
                                         fahrenheitToCelsius(allweather.feelTemp)

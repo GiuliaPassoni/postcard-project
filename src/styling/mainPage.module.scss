@@ -174,12 +174,38 @@ body {
   font-family: 'Montserrat', sans-serif;
   overflow: hidden;
   color: variables.$raisin-black;
+  //position:relative;
 }
 
-main::after{
-  content:'';
-  margin-bottom:40px;
+//FOOTER
+//main{
+//  padding-bottom: 40px;
+//}
+
+
+footer {
+  .myCp{
+    text-align: center;
+    height: 40px;
+    color:variables.$raisin-black;
+    transform: rotate(270deg);
+    position: absolute;
+    bottom: 35px;
+    right: -80px;
+  }
+  p{
+    //margin-bottom: 0;
+  }
+  //.others{
+  //  display:none;
+  //  text-align: center;
+  //  transform: rotate(270deg);
+  //  position: absolute;
+  //  right: -3rem;
+  //  bottom: 50vh;
+  //}
 }
+
 
 
 //container
@@ -222,6 +248,7 @@ h1 {
   letter-spacing: .8rem;
   font-family: 'Just Another Hand', cursive;
   margin-bottom: 0;
+
 }
 
 h3 {
@@ -253,6 +280,19 @@ h3 * + * {
     justify-content: center;
     margin: 0;
     padding-top: 0;
+    .cabbageClass{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+    .aButton{
+      border: none;
+      background-color:white;
+      border-radius: 50%;
+      color:variables.$paradise-pink;
+      padding: .5rem;
+      margin-left: 5px;
+    }
 
     input {
       margin-top: 0;
@@ -294,38 +334,12 @@ h3 * + * {
   }
 }
 
-//FOOTER
-
-footer {
-  .myCp{
-    width:100%;
-    position: absolute;
-    text-align: center;
-    //margin-top: 2rem;
-    //bottom: 20px;
-    bottom: 0;
-    vertical-align: top;
-    color:variables.$raisin-black;
-  }
-  p{
-    margin-bottom: 0;
-  }
-  .others{
-    display:none;
-    text-align: center;
-    transform: rotate(270deg);
-    position: absolute;
-    right: -3rem;
-    bottom: 50vh;
-  }
-}
-
 //MEDIA
 
 @media screen and (max-width: 800px) {
   .containerAll{
     border: none;
-    height:100vh;
+    //height:100vh;
     margin-left: .5rem;
     margin-right:.5rem;
     h1{
@@ -336,9 +350,11 @@ footer {
       width: 80%;
       padding: 1rem 0 1rem 0;
       border: 3px double variables.$raisin-black;
+      margin-bottom: .5rem;
     }
     h3{
       font-size: 90%;
+      margin: 1.5em auto 1rem auto;
     }
   }
   .intro {
@@ -360,6 +376,90 @@ footer {
       margin-top: 0;
     }
   }
+
+  body{
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: relative;
+    overflow: auto;
+  }
+  main{
+    padding-bottom: 40px;
+  }
+
+  footer{
+    .myCp{
+      p{
+        transform: rotate(270deg);
+        width: 40%;
+        bottom: 0;
+        right: 0;
+        //    position: relative;
+        //margin-top: -30px;
+        //    height: 40px;
+      }
+    }
+
+  }
 }
 
+@media screen and (min-width:1500px){
+  .containerAll{
+    margin: 2rem;
+    h1{
+      padding-left:10px;
+      padding-right: 10px;
+      background: linear-gradient(
+                      143deg,
+                      #B9C9C4 0%,
+                      #DDC2B8 55%
+      );
+    }
+    h3{
+      font-size: 90%;
+      margin: 1.5em auto 1rem auto;
+    }
+  }
+  .intro {
+    .introForm {
+      flex-direction: column;
+    }
+  }
+  .geoInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: .5rem;
+    span {
+      font-size: 250%;
+      padding-right: .5rem;
+      text-align: center;
+    }
+    p {
+      margin-top: 0;
+    }
+  }
 
+  body{
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: relative;
+    overflow: auto;
+    overflow: hidden;
+  }
+  main{
+    padding-bottom: 40px;
+  }
+
+  footer {
+    .myCp{p{
+      bottom: 35px;
+      right: -40px;
+    }
+    }
+  }
+}

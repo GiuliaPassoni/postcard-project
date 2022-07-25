@@ -36,30 +36,34 @@
   .weatherSection{
     width: 100%;
     flex-direction: row;
-    //justify-content: center;
-    //align-items: center;
-    //flex-wrap: wrap;
-    //border:1px solid blue;
-    //text-align: center;
     h4{
       width: 100%;
-      //margin: .5rem auto;
     }
     .dataContainer{
       width: 100%;
-    //  margin-left: auto;
-    //  margin-right: auto;
-    //  .dataLeft{
-    //
-    //  }
       .dataRight{
-    //    padding: 0;
         p{
-    //      margin-top: 0.5rem;
-    //      margin-bottom: 0;
           text-align: center;
         }
       }
     }
   }
+}
+
+@media screen and (min-width: 1500px){
+  .weatherSection{
+    margin-top: 1.5rem;
+    .dataContainer{
+      width: 100%;
+      margin-top: 1rem;
+      .dataRight{
+        //    padding: 0;
+        p{
+
+          text-align: center;
+        }
+      }
+    }
+  }
+
 }

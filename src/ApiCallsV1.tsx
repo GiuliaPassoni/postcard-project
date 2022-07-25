@@ -9,6 +9,7 @@ import PicturesComponent from "./components/PicturesComponent"
 import style from './styling/mainPage.module.scss'
 import {Container, Stack} from '@mui/material'
 import GitHubIcon from '@mui/icons-material/GitHub'
+import SearchIcon from '@mui/icons-material/Search'
 
 const ApiCallsV1 = () => {
     //API1: LOCATION
@@ -17,7 +18,6 @@ const ApiCallsV1 = () => {
     const [typingValue, setTypingValue] = useState<string>('')
     //to display error if no location is found
     const [noLocationError, setNoLocationError] = useState<string>('')
-    const [noFlagError, setNoFlagError] = useState<string>('')
     //to set the location
     const [location, setLocation] = useState<string>('')
     //skeleton to hold the location info
@@ -58,7 +58,7 @@ const ApiCallsV1 = () => {
             setNoLocationError('')
 
         }
-    }, [location]);
+    }, [location, width]);
 
     // const movingCloudsClass = location === '' ? 'clouds' : '';
 
@@ -85,21 +85,23 @@ const ApiCallsV1 = () => {
                             e.preventDefault();
                             setLocation(typingValue)
                         }}>
-                        {/*<label htmlFor='cities'>Input or select a capital city</label>*/}
-                        <input placeholder='e.g. Amsterdam'
-                               id='citiesInput' name='cities' list='cities'
-                               value={typingValue}
-                               onChange={(e) => setTypingValue(e.target.value)}
-                               onClick={(e) => {
-                                   setLocation('')
-                                   setTypingValue('')
-                                   // e.target.reset()
-                               }}
-                               onBlur={(e) => {
-                                   e.preventDefault();
-                                   setLocation(e.target.value);
-                               }}
-                        />
+                        <div className={style.cabbageClass}>
+                            <input placeholder='e.g. Amsterdam'
+                                   id='citiesInput' name='cities' list='cities'
+                                   value={typingValue}
+                                   onChange={(e) => setTypingValue(e.target.value)}
+                                   onClick={(e) => {
+                                       setLocation('')
+                                       setTypingValue('')
+                                       // e.target.reset()
+                                   }}
+                                   onBlur={(e) => {
+                                       e.preventDefault();
+                                       setLocation(e.target.value);
+                                   }}
+                            />
+                            <button className={style.aButton}>< SearchIcon/></button>
+                        </div>
                         <datalist id='cities'>
                             {allCapitals.map((item) => {
                                 return <option value={item} key={item}/>
@@ -126,7 +128,8 @@ const ApiCallsV1 = () => {
                                     <>
                                         <ReactCountryFlag countryCode={geoInfo['flagCode']}/>
                                     </>}
-                                {geoInfo.currency !== '' && geoInfo.currency !== undefined  && <p>Currency: {geoInfo.currency}</p>}
+                                {geoInfo.currency !== '' && geoInfo.currency !== undefined &&
+                                    <p>Currency: {geoInfo.currency}</p>}
                             </Stack>
                         </section>
 
@@ -143,13 +146,16 @@ const ApiCallsV1 = () => {
                         <div className="cloud"></div>
                         <div className="cloud"></div>
                         <div className="cloud"></div>
-                    </div>}
-
+                    </div>
+                }
             </main>
             <footer>
                 {/*<p className={style.socials}><GitHubIcon /></p>*/}
-                <p className={style.myCp}>&copy; Giulia Passoni 2022 <a href='https://github.com/GiuliaPassoni'><GitHubIcon /></a></p>
-                <p className={style.others}> CSS Animation credits: <a href='https://codepen.io/geenah/pen/pVXvgK'>Gina</a></p>
+                <p className={style.myCp}>&copy; Giulia Passoni 2022
+                    {/*<a                     href='https://github.com/GiuliaPassoni'><GitHubIcon/></a>*/}
+                </p>
+                {/*<p className={style.others}> CSS Animation credits: <a*/}
+                {/*    href='https://codepen.io/geenah/pen/pVXvgK'>Gina</a></p>*/}
             </footer>
         </Container>
     )

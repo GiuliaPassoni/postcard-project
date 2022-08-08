@@ -61,6 +61,8 @@ export default function PicturesComponent({locat, orientation}:TPicturesProps){
     return(
         <>
             {errorMessage === '' &&
+                <>
+                    <p style={{textAlign:'center', margin:'.3rem 0 0 0'}}>Click on your favourite postcard</p>
                 <Container className='picturesSection'
                            style={{margin:'.5rem auto',display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
                 <Carousel>
@@ -68,8 +70,13 @@ export default function PicturesComponent({locat, orientation}:TPicturesProps){
                     })}
                 </Carousel>
                 </Container>
+                </>
             }
-            {errorMessage !== '' && errorMessage}
+            {errorMessage !== '' &&
+                <div style={{textAlign:'center'}}>
+                    {errorMessage}
+                </div>
+            }
         </>
     )
 

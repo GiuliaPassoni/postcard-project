@@ -23,7 +23,6 @@ export default function Postcard({image, keyThing, locat}: PostcardProps) {
     const [open, setOpen] = useState<boolean>(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [flip, setFlip] = useState<boolean>(false);
 
     const [sending, setSending] = useState<SendType>({
         from_name: '',
@@ -122,6 +121,7 @@ export default function Postcard({image, keyThing, locat}: PostcardProps) {
                                             value={sending.reply_to}
                                             onChange={handleChange}
                                             autoComplete='off'
+                                            required
                                         />
                                     </div>
                                     <div className='to'>
@@ -141,6 +141,7 @@ export default function Postcard({image, keyThing, locat}: PostcardProps) {
                                             value={sending.to_email}
                                             onChange={handleChange}
                                             autoComplete='off'
+                                            required
                                         />
                                     </div>
                                 </div>

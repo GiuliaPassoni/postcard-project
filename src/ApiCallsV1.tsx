@@ -109,7 +109,6 @@ const ApiCallsV1 = () => {
                         </datalist>
                     </form>
                 </section>
-
                 {location === '' &&
                     <div className={style.cloudId}>
                         <div className={style.cloud}></div>
@@ -139,19 +138,23 @@ const ApiCallsV1 = () => {
 
                     </>
                 }
-                {noLocationError !== '' && noLocationError &&
-                    <div id="clouds">
-                        <div className="cloud"></div>
-                        <div className="cloud"></div>
-                        <div className="cloud"></div>
-                        <div className="cloud"></div>
-                        <div className="cloud"></div>
-                    </div>
+                {noLocationError !== '' &&
+                    <>
+                        <div style={{textAlign:'center'}}>{noLocationError}</div>
+                        <div id="clouds">
+                            <div className="cloud"></div>
+                            <div className="cloud"></div>
+                            <div className="cloud"></div>
+                            <div className="cloud"></div>
+                            <div className="cloud"></div>
+                        </div>
+                    </>
+                    // noLocationError &&
                 }
             </main>
             <footer>
                 {/*<p className={style.socials}><GitHubIcon /></p>*/}
-                <p className={style.myCp}>&copy; Giulia Passoni 2022
+                <p className={style.myCp}>    &copy; Giulia Passoni 2022
                     {/*<a                     href='https://github.com/GiuliaPassoni'><GitHubIcon/></a>*/}
                 </p>
                 {/*<p className={style.others}> CSS Animation credits: <a*/}
